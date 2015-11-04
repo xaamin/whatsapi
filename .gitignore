@@ -1,0 +1,10 @@
+/vendor
+composer.phar
+.DS_Store
+/.idea
+/nbproject
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
+_ide_helper.php

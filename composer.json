@@ -1,0 +1,30 @@
+{
+    "name": "xaamin/whatsapilaravel",
+    "description": "A laravel Wrapper for WhatsApi",
+    "license": "MIT",
+    "keywords": [
+        "whatsapp",
+        "whatsapi",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name": "Benjamín Martínez Mateos",
+            "email": "bmxamin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "whatsapp/chat-api": "dev-master"
+    },
+    "suggest": {
+        "illuminate/support": "For use on Laravel 5."
+    },
+    "autoload": {
+        "psr-4": {
+            "Xaamin\\Whatsapi\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -81,7 +81,7 @@ class MessageManager
     /**
      * Returns all injected vars
      * 
-     * @return [type] [description]
+     * @return array
      */
     public function getInjectedVars()
     {
@@ -92,11 +92,12 @@ class MessageManager
      * Send text message   
      *  
      * <code>
-     *     WA::send('Hi !', function($message) use ($vcard)
+     *     WA::send('Hi !', function($send) use ($vcard)
      *     {
-     *         $message->to('5219622222222');
+     *         $send->to('5219622222222');
+     * 
      *         // You can add more messages
-     *         $message->message('Chao !');
+     *         $send->message('Chao !');
      *     }):
      * </code>
      * 
@@ -118,13 +119,15 @@ class MessageManager
      * Send audio message
      *     
      * <code>
-     *     WA::send('Listen this !', function($message) use ($vcard)
+     *     WA::send('Listen this !', function($send) use ($vcard)
      *     {
-     *         $message->to('5219622222222');
+     *         $send->to('5219622222222');
+     * 
      *         // From local storage
-     *         $message->audio('/home/xaamin/example.mp3');
+     *         $send->audio('/home/xaamin/example.mp3');
+     * 
      *         // or from web url
-     *         $message->audio('http://itnovado.com/example.mp3');
+     *         $send->audio('http://itnovado.com/example.mp3');
      *     }):
      * </code>
      * 
@@ -140,18 +143,20 @@ class MessageManager
      * Send image message
      *     
      * <code>
-     *     WA::send('See this cool image !', function($message) use ($vcard)
+     *     WA::send('See this cool image !', function($send) use ($vcard)
      *     {
-     *         $message->to('5219622222222');
+     *         $send->to('5219622222222');
+     * 
      *         // From local storage
-     *         $message->image('/home/xaamin/example.jpg', 'Cool image');
+     *         $send->image('/home/xaamin/example.jpg', 'Cool image');
+     * 
      *         // or from web url
-     *         $message->image('http://itnovado.com/example.jpg', 'Cool image');
+     *         $send->image('http://itnovado.com/example.jpg', 'Cool image');
      *     }):
      * </code>
      * 
      * @param  string $file File location
-     * @param string Caption
+     * @param  string Caption
      * @return void
      */
     public function image($file, $caption = null)
@@ -163,17 +168,17 @@ class MessageManager
      * Send location message
      * 
      * <code>
-     *     WA::send('Go to itnovado !', function($message) use ($vcard)
+     *     WA::send('Go to itnovado !', function($send) use ($vcard)
      *     {
-     *         $message->to('5219622222222');
-     *         $message->location(-89.164138, 19.412405, 'Itnovado Location');
+     *         $send->to('5219622222222');
+     *         $send->location(-89.164138, 19.412405, 'Itnovado Location');
      *     }):
      * </code>
      * 
-     * @param float $longitude
-     * @param float $latitude
-     * @param string Caption
-     * @param string $url
+     * @param  float $longitude
+     * @param  float $latitude
+     * @param  string Caption
+     * @param  string $url
      * @return void
      */
     public function location($longitude, $latitude, $caption = null, $url = null)
@@ -192,8 +197,8 @@ class MessageManager
      * Send Virtual Cards
      * 
      * <code>
-     *     // Create vCard Instance
-     *     $vcard = new vCard();
+     *     // Create VCard Instance
+     *     $vcard = new Xaamin\Whatsapi\Media\VCard();
      *     
      *     // Set properties
      *     $vcard->set('data', array(
@@ -203,10 +208,10 @@ class MessageManager
      *     ));
      *     
      *     // Send
-     *     WA::send('Hi, meet to Xaamin !', function($message) use ($vcard)
+     *     WA::send('Hi, meet to Xaamin !', function($send) use ($vcard)
      *     {
-     *         $message->to('5219622222222');
-     *         $message->vcard('Xaamin Mat', $vcard);
+     *         $send->to('5219622222222');
+     *         $send->vcard('Xaamin Mat', $vcard);
      *     }):
      * </code>
      * 
@@ -228,18 +233,20 @@ class MessageManager
      * Send video message    
      * 
      * <code>
-     *     WA::send('Watch this !', function($message) use ($vcard)
+     *     WA::send('Watch this !', function($send) use ($vcard)
      *     {
-     *         $message->to('5219622222222');
+     *         $send->to('5219622222222');
+     * 
      *         // From local storage
-     *         $message->video('/home/xaamin/example.mp4', 'Fun video');
+     *         $send->video('/home/xaamin/example.mp4', 'Fun video');
+     * 
      *         // or from web url
-     *         $message->video('http://itnovado.com/example.mp4', 'Fun video');
+     *         $send->video('http://itnovado.com/example.mp4', 'Fun video');
      *     }):
      * </code>
      * 
      * @param  string $file File location
-     * @param string|null Caption
+     * @param  string|null Caption
      * @return void
      */
     public function video($file, $caption = null)
@@ -251,10 +258,10 @@ class MessageManager
      * Set message targets (Receivers)
      * 
      * <code>
-     *     WA::send('Hi !', function($message) use ($vcard)
+     *     WA::send('Hi !', function($send) use ($vcard)
      *     {
      *         // One target
-     *         $message->to('5219622222222');
+     *         $send->to('5219622222222');
      *         
      *         // or using array
      *         $targets = [
@@ -263,7 +270,7 @@ class MessageManager
      *             '5219511558633'
      *         ];
      *         
-     *         $message->to($targets);
+     *         $send->to($targets);
      *     }):
      * </code>
      * 
@@ -293,7 +300,7 @@ class MessageManager
      * Smart pause on message composition
      * 
      * @param  stdClass $message
-     * @return int
+     * @return float
      */
     public function composition(stdClass $message)
     {

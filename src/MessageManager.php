@@ -92,7 +92,7 @@ class MessageManager
      * Send text message   
      *  
      * <code>
-     *     WA::send('Hi !', function($send) use ($vcard)
+     *     WA::send('Hi !', function($send)
      *     {
      *         $send->to('5219622222222');
      * 
@@ -119,7 +119,7 @@ class MessageManager
      * Send audio message
      *     
      * <code>
-     *     WA::send('Listen this !', function($send) use ($vcard)
+     *     WA::send('Listen this !', function($send)
      *     {
      *         $send->to('5219622222222');
      * 
@@ -143,7 +143,7 @@ class MessageManager
      * Send image message
      *     
      * <code>
-     *     WA::send('See this cool image !', function($send) use ($vcard)
+     *     WA::send('See this cool image !', function($send)
      *     {
      *         $send->to('5219622222222');
      * 
@@ -168,7 +168,7 @@ class MessageManager
      * Send location message
      * 
      * <code>
-     *     WA::send('Go to itnovado !', function($send) use ($vcard)
+     *     WA::send('Go to itnovado !', function($send)
      *     {
      *         $send->to('5219622222222');
      *         $send->location(-89.164138, 19.412405, 'Itnovado Location');
@@ -233,7 +233,7 @@ class MessageManager
      * Send video message    
      * 
      * <code>
-     *     WA::send('Watch this !', function($send) use ($vcard)
+     *     WA::send('Watch this !', function($send)
      *     {
      *         $send->to('5219622222222');
      * 
@@ -258,7 +258,7 @@ class MessageManager
      * Set message targets (Receivers)
      * 
      * <code>
-     *     WA::send('Hi !', function($send) use ($vcard)
+     *     WA::send('Hi !', function($send)
      *     {
      *         // One target
      *         $send->to('5219622222222');

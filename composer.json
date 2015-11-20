@@ -24,7 +24,5 @@
         "psr-4": {
             "Xaamin\\Whatsapi\\": "src/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

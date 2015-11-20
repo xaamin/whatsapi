@@ -1,6 +1,6 @@
 {
-    "name": "xaamin/whatsapilaravel",
-    "description": "A laravel Wrapper for WhatsApi",
+    "name": "xaamin/whatsapi",
+    "description": "Wrapper for Whatsapp messenger",
     "license": "MIT",
     "keywords": [
         "whatsapp",

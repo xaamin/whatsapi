@@ -31,13 +31,6 @@ class MGP25 implements WhatsapiInterface
     protected $manager;
 
     /**
-     * Tool implementation to request an register Whatsapp code
-     * 
-     * @var \Xaamin\Whatsapi\Contracts\WhatsapiToolInterface
-     */
-    protected $tool;
-
-    /**
      * Holds connect status
      * 
      * @var boolean
@@ -82,12 +75,11 @@ class MGP25 implements WhatsapiInterface
     /**
      * @param WhatsProt $whatsProt
      */
-    public function __construct(WhatsProt $whatsProt, MessageManager $manager, WhatsapiToolInterface $tool, Listener $listener, array $config)
+    public function __construct(WhatsProt $whatsProt, MessageManager $manager,Listener $listener, array $config)
     {
         $this->whatsProt = $whatsProt;
         $this->manager = $manager;
-        $this->tool = $tool;
-        $this->walistener = $listener;
+        $this->walistener = $listener->registerWhatsProtEvents($whatsProt);
         $this->config = $config;
 
         $account = $this->config["default"];
@@ -99,16 +91,6 @@ class MGP25 implements WhatsapiInterface
         {
             $this->connectAndLogin();
         }
-    }
-
-    /**
-     * Registration tool
-     * 
-     * @return WhatsapiToolInterface
-     */
-    public function tool()
-    {
-        return $this->tool;
     }
 
     /**
@@ -135,52 +117,7 @@ class MGP25 implements WhatsapiInterface
     }
 
     /**
-     * Send messages with Whatsapi
-     * 
-     * <code>
-     *     $message = 'Hi Ben, SOS!';
-     *     $result = WA::send($message, function($message)
-     *     {
-     *         // Sets receivers
-     *         $message->to('5219511552222', '52195115583333', '5219511552233');
-     *         
-     *         // Add an image
-     *         $message->audio('http://itnovado.com/example.mp3');
-     * 
-     *         // Add an audio file
-     *         $message->image('http://itnovado.com/example.jpg', 'Cool image');
-     *         
-     *         // Add a video
-     *         $message->video('http://itnovado.com/example.mp4', 'Fun video');
-     * 
-     *         // Add a location
-     *         $message->location(-89.164138, 19.412405, 'Itnovado Location');
-     * 
-     *         // Add a VCard
-     *         $vcard = new Xaamin\Whatsapi\Media\VCard();
-     *     
-     *         $vcard->set('data', array(
-     *             'first_name' => 'John',
-     *             'last_name' => 'Doe',
-     *             'tel' => '9611111111',
-     *             ));
-     *     
-     *         $message->vcard('Xaamin Mat', $vcard);
-     *         
-     *         // Add new text message
-     *         $message->message('Thanks in advanced');
-     *     }
-     * 
-     *     // Loop on each message
-     *     foreach($result as $message)
-     *     {
-     *         // Do something with message
-     *     }
-     * </code>
-     * 
-     * @param  string  $message
-     * @param  Closure $callback
-     * @return array Return the messages sended with injected variables and MessageID
+     * {@inheritdoc}
      */
     public function send($message, Closure $callback)
     {
@@ -382,11 +319,7 @@ class MGP25 implements WhatsapiInterface
     }
 
     /**
-     * Sync contacts
-     * 
-     * @param  array $contacs Contacts to sync
-     * @param  array $delete  Contacts to delete
-     * @return void
+     * {@inheritdoc}
      */
     public function syncContacts(array $contacs, array $delete = null)
     {
@@ -430,9 +363,7 @@ class MGP25 implements WhatsapiInterface
     }
 
     /**
-     * Retrieve all messages received
-     * 
-     * @return array|null Return null if not messages found
+     * {@inheritdoc}
      */
     public function getNewMessages()
     {

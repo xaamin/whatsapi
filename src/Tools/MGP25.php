@@ -2,40 +2,75 @@
 namespace Xaamin\Whatsapi\Tools;
 
 use WhatsProt;
+use Registration;
+use Xaamin\Whatsapi\Events\Listener;
 use Xaamin\Whatsapi\Contracts\WhatsapiToolInterface;
 
 class MGP25 implements WhatsapiToolInterface
 {
+    /**
+     * Debug app?
+     * 
+     * @var boolean
+     */
     private $debug;
 
-    public function __construct($debug = false)
+    /**
+     * Event Registrarion listener 
+     * 
+     * @var \Xaamin\Whatsapi\Events\Listener
+     */
+    private $listener;
+
+    public function __construct(Listener $listener, $debug = false)
     {
-        $this->debug($debug);
+        $this->setDebug($debug);
+        $this->listener = $listener;
     }
 
-    public function debug($debug = true)
+    /**
+     * We're debugging the registration process?
+     * 
+     * @param  boolean $debug [description]
+     * @return [type]         [description]
+     */
+    public function setDebug($debug = true)
     {
         $this->debug = $debug;
 
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function requestCode($number, $type = 'sms', $carrier = null)
     {
-        $WA = $this->getClientForNumber($number);
+        $registration = $this->getRegistrationClient($number);
         
-        return $WA->codeRequest(strtolower($type), $carrier);
+        return $registration->codeRequest(strtolower($type), $carrier);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function registerCode($number, $code)
     {
-        $WA = $this->getClientForNumber($number);
+        $registration = $this->getRegistrationClient($number);
         
-        return $WA->codeRegister($code);
+        return $registration->codeRegister($code);
     }
 
-    private function getClientForNumber($number)
+    /**
+     * Get WhatsProt instance for given number
+     * 
+     * @param  string $number 
+     * @return \Registration
+     */
+    private function getRegistrationClient($number)
     {
-        return new WhatsProt($number, '', $this->debug);
+        $registration = new Registration($number, $this->debug);
+        $this->listener->registerRegistrationEvents($registration);
+        return $registration;
     }
 }

@@ -8,13 +8,6 @@ use Xaamin\Whatsapi\Media\VCard;
 interface WhatsapiInterface 
 {
     /**
-     * Returns tool to request and register Whatsapp code
-     * 
-     * @return '\Xaamin\Whatsapi\Contracts\WhatsapiToolInterface'
-     */
-    public function tool();
-
-    /**
      * Returns the api gateway used to send messages to Whatsapp
      * 
      * @return mixed

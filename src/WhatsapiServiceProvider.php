@@ -30,7 +30,7 @@ class WhatsapiServiceProvider extends ServiceProvider
         $this->registerListenerInterface();
         $this->registerMediaManager();
         $this->registerMessageManager();
-        $this->registerToolInterface();
+        $this->registerRegistrationTool();
         $this->registerWhatsapi();
 
         $this->mergeConfigFrom(__DIR__ . '/Config/config.php', 'whatsapi');
@@ -66,9 +66,7 @@ class WhatsapiServiceProvider extends ServiceProvider
     {
         $this->app->singleton('Xaamin\Whatsapi\Events\Listener', function($app)
         {   
-            $whatsProt = $app->make('WhatsProt');
-
-            return new \Xaamin\Whatsapi\Events\Listener($whatsProt, Config::get('whatsapi'));
+            return new \Xaamin\Whatsapi\Events\Listener(Config::get('whatsapi'));
         });
     }
 
@@ -90,29 +88,30 @@ class WhatsapiServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerToolInterface()
-    {
-        $this->app->singleton('Xaamin\Whatsapi\Contracts\WhatsapiToolInterface', function($app)
-        {
-            return new \Xaamin\Whatsapi\Tools\MGP25(Config::get('whatsapi.debug'));
-        });
-    }
-
     private function registerWhatsapi()
     {
-        $this->app->singleton('WA', function ($app)
+        $this->app->singleton('Xaamin\Whatsapi\Contracts\WhatsapiInterface', function ($app)
         {
              // Dependencies
              $whatsProt = $app->make('WhatsProt');
              $manager = $app->make('Xaamin\Whatsapi\MessageManager');
-             $tool = $app->make('Xaamin\Whatsapi\Contracts\WhatsapiToolInterface');
              $listener = $app->make('Xaamin\Whatsapi\Events\Listener');
 
              $config = Config::get('whatsapi');
 
-             return new \Xaamin\Whatsapi\Clients\MGP25($whatsProt, $manager, $tool, $listener, $config);
+             return new \Xaamin\Whatsapi\Clients\MGP25($whatsProt, $manager, $listener, $config);
         });
 
+    }
+
+    private function registerRegistrationTool()
+    {
+        $this->app->singleton('Xaamin\Whatsapi\Contracts\WhatsapiToolInterface', function($app)
+        {
+            $listener = $app->make('Xaamin\Whatsapi\Events\Listener');
+
+            return new \Xaamin\Whatsapi\Tools\MGP25($listener, Config::get('whatsapi.debug'));
+        });
     }
 
     /**
@@ -122,6 +121,6 @@ class WhatsapiServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['WA'];
+        return ['Xaamin\Whatsapi\Contracts\WhatsapiInterface', 'Xaamin\Whatsapi\Contracts\WhatsapiToolInterface'];
     }
 }

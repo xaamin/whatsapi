@@ -1,9 +1,10 @@
 <?php
 namespace Xaamin\Whatsapi\Events;
 
-use AllEvents;
 use WhatsProt;
 use Exception;
+use Registration;
+use WhatsApiEventsManager;
 use Xaamin\Whatsapi\Contracts\ListenerInterface;
 
 class Listener
@@ -23,13 +24,6 @@ class Listener
     private $lines = [];
 
     /**
-     * WhatsProt instance
-     * 
-     * @var WhatsProt
-     */
-    protected $whatsProt;
-
-    /**
      * ListenerInterface instance
      * 
      * @var \Xaamin\Whatsapi\Contracts\ListenerInterface
@@ -46,14 +40,12 @@ class Listener
     /**
      * Constructor
      * 
-     * @param WhatsProt $whatsProt 
      * @param array $config
      */
-    public function __construct(WhatsProt $whatsProt, array $config)
+    public function __construct(array $config)
     {
         $this->config = $config;
 
-        $this->whatsProt = $whatsProt;
         $this->setEventsToListen();
     }
 
@@ -71,22 +63,40 @@ class Listener
         }
         
         $this->lines = $this->config['messages'];
-
-        $this->registerEvents();
     }
 
     /**
-     * Binds the requested events to the event manager.
+     * Binds the requested events to the WhatsProt event manager.
      * 
-     * @return $this
+     * @return Xaamin\Whatsapi\Events\Listener
      */
-    protected function registerEvents()
+    public function registerWhatsProtEvents(WhatsProt $whatsProt)
+    {
+        return $this->registerEvents($whatsProt->eventManager());
+    }
+
+    /**
+     * Binds the requested events to the Registration event manager.
+     * 
+     * @return Xaamin\Whatsapi\Events\Listener
+     */
+    public function registerRegistrationEvents(Registration $registration)
+    {
+        return $this->registerEvents($registration->eventManager());
+    }
+
+    /**
+     * Binds events to the WhatsApiEventsManager
+     * @param  WhatsApiEventsManager $manager
+     * @return Xaamin\Whatsapi\Events\Listener
+     */
+    protected function registerEvents(WhatsApiEventsManager $manager)
     {
         foreach ($this->events as $event) 
         {
             if (is_callable(array($this, $event))) 
             {
-                $this->whatsProt->eventManager()->bind($event, [$this, $event]);
+                $manager->bind($event, [$this, $event]);
             }
         }
         

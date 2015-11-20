@@ -8,7 +8,7 @@ interface WhatsapiToolInterface
 	/**
 	 * Request code registration to Whatsapp server
 	 * 
-	 * @param  string $number  [description]
+	 * @param  string $number
 	 * @param  string $type    sms or voice
 	 * @param  string $carrier 
 	 * @return array

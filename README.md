@@ -24,12 +24,8 @@ Wrapper for this awesome [repository](https://github.com/WHAnonymous/Chat-API)
     composer require xaamin/whatsapi
 ```
 
-If you get `[InvalidArgumentException] Could not find package xaamin/whatsapi at any version for your minimum-stability (stable). Check the package spelling or your minimum-stability` you must add these lines to your composer.json an then re-run previous command.
+  * If you get `[InvalidArgumentException] Could not find package xaamin/whatsapi at any version for your minimum-stability (stable). Check the package spelling or your minimum-stability` you must add `"minimum-stability": "dev"` and `"prefer-stable" : true` to your composer.json an then re-run previous command.
 
-```
-    "minimum-stability": "dev",
-    "prefer-stable" : true
-```
 
 5. Now we need to publish the config file that will allow you to very easily add all your account numbers.
 
@@ -42,8 +38,7 @@ If you get `[InvalidArgumentException] Could not find package xaamin/whatsapi at
 ```
     'Xaamin\Whatsapi\WhatsapiServiceProvider'
 ```
-
-In the same files add to aliases array each of these lines
+7. In the same config file add to aliases array each of these lines
 
 ```
     'WA' => 'Xaamin\Whatsapi\Facades\Laravel\Whatsapi',

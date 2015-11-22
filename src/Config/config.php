@@ -6,7 +6,7 @@ return [
     /**
      * Next paths must be writable by webserver
      */
-    'challenge-path' => storage_path() . '/app/whatsapi', 
+    'challenge-path' => storage_path() . '/app', 
    
     'media-path' => public_path() . '/media', 
 

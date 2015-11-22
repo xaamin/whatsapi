@@ -164,4 +164,40 @@ See the entire registration process on [https://github.com/WHAnonymous/Chat-API/
     }
 ```
 
+**Sync contacts**
+
+```
+    $result = WA::syncContacts(['5219512222222', '5219512222223']);
+    
+    foreach ($result->existing as $number => $account)
+    {
+        ... 
+    }
+
+    foreach ($result->nonExisting as $number)
+    {
+        ...
+    }
+```
+
+Example response
+
+```
+    SyncResult Object
+    (
+        [index] => 0
+        [syncId] => 130926960960000000
+        [existing] => Array
+            (
+                [+5219512222222] => 5219512222222@s.whatsapp.net
+            )
+
+        [nonExisting] => Array
+            (
+                [0] => 5219512222223
+            )
+
+    )
+```
+
 You can use on routes, cli... you got the idea.

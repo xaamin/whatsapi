@@ -5,6 +5,7 @@ use WhatsProt;
 use Exception;
 use Registration;
 use WhatsApiEventsManager;
+use Xaamin\Whatsapi\Sessions\SessionInterface;
 use Xaamin\Whatsapi\Contracts\ListenerInterface;
 
 class Listener
@@ -31,6 +32,13 @@ class Listener
     protected $listener;
 
     /**
+     * Holds SessionInterface instance
+     * 
+     * @var Xaamin\Whatsapi\Sessions\SessionInterface
+     */
+    protected $session;
+
+    /**
      * Events to listen for
      * 
      * @var array
@@ -42,9 +50,10 @@ class Listener
      * 
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(SessionIdInterface $session, array $config)
     {
         $this->config = $config;
+        $this->session = $session;
 
         $this->setEventsToListen();
     }
@@ -52,8 +61,7 @@ class Listener
     /**
      * Register the events you want to listen for.
      *
-     * @param array $eventList
-     * @return WhatsapiListener
+     * @return void
      */
     private function setEventsToListen()
     {                
@@ -68,7 +76,7 @@ class Listener
     /**
      * Binds the requested events to the WhatsProt event manager.
      * 
-     * @return Xaamin\Whatsapi\Events\Listener
+     * @return \Xaamin\Whatsapi\Events\Listener
      */
     public function registerWhatsProtEvents(WhatsProt $whatsProt)
     {
@@ -78,7 +86,7 @@ class Listener
     /**
      * Binds the requested events to the Registration event manager.
      * 
-     * @return Xaamin\Whatsapi\Events\Listener
+     * @return \Xaamin\Whatsapi\Events\Listener
      */
     public function registerRegistrationEvents(Registration $registration)
     {
@@ -87,8 +95,8 @@ class Listener
 
     /**
      * Binds events to the WhatsApiEventsManager
-     * @param  WhatsApiEventsManager $manager
-     * @return Xaamin\Whatsapi\Events\Listener
+     * @param  \WhatsApiEventsManager $manager
+     * @return \Xaamin\Whatsapi\Events\Listener
      */
     protected function registerEvents(WhatsApiEventsManager $manager)
     {
@@ -103,15 +111,25 @@ class Listener
         return $this;
     }
 
-    /**
+     /**
      * Sets custom event listener
      * 
-     * @param  ListenerInterface $listener 
-     * @return ListenerInterface
+     * @param  \Xaamin\Whatsapi\Contracts\ListenerInterface $listener 
+     * @return void
      */
     public function setListener(ListenerInterface $listener)
     {
-        return $this->listener = $listener;
+        $this->listener = $listener;
+    }
+
+    /**
+     * Gets the event listener
+     * 
+     * @return \Xaamin\Whatsapi\Contracts\ListenerInterface
+     */
+    public function getListener(ListenerInterface $listener)
+    {
+        return $this->listener;
     }
 
     /**
@@ -806,6 +824,8 @@ class Listener
         $parameters = [
             'result' => $sync
         ];
+
+        $this->session->put($result);
 
         $this->fire(__FUNCTION__, $parameters);
     }

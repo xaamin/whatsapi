@@ -8,8 +8,8 @@ use WhatsProt;
 use Xaamin\Whatsapi\Media\VCard;
 use Xaamin\Whatsapi\MessageManager;
 use Xaamin\Whatsapi\Events\Listener;
+use Xaamin\Whatsapi\Sessions\SessionInterface;
 use Xaamin\Whatsapi\Contracts\WhatsapiInterface;
-use Xaamin\Whatsapi\Contracts\WhatsapiToolInterface;
 
 class MGP25 implements WhatsapiInterface
 {
@@ -38,16 +38,16 @@ class MGP25 implements WhatsapiInterface
     protected $connected = false;
 
     /**
-     * Holds ListenerInterface instance
+     * Holds SessionInterface instance
      * 
-     * @var ListenerInterface
+     * @var Xaamin\Whatsapi\Sessions\SessionInterface
      */
-    protected $listener;
+    protected $session;
 
     /**
-     * Holds ListenerInterface instance
+     * Holds event listener
      * 
-     * @var ListenerInterface
+     * @var \Xaamin\Whatsapi\Events\Listener
      */
     protected $walistener;
 
@@ -75,11 +75,12 @@ class MGP25 implements WhatsapiInterface
     /**
      * @param WhatsProt $whatsProt
      */
-    public function __construct(WhatsProt $whatsProt, MessageManager $manager,Listener $listener, array $config)
+    public function __construct(WhatsProt $whatsProt, MessageManager $manager, Listener $listener, SessionInterface $session, array $config)
     {
         $this->whatsProt = $whatsProt;
         $this->manager = $manager;
         $this->walistener = $listener->registerWhatsProtEvents($whatsProt);
+        $this->session = $session;
         $this->config = $config;
 
         $account = $this->config["default"];
@@ -96,13 +97,12 @@ class MGP25 implements WhatsapiInterface
     /**
      * Sets the Whatsapi event listener
      * 
-     * @param  ListenerInterface $listener 
-     * @return ListenerInterface
+     * @param  \Xaamin\Whatsapi\Contracts\ListenerInterface $listener 
+     * @return void
      */
     public function setListener(ListenerInterface $listener)
     {
-        $this->listener = $this->walistener->setListener($listener);
-        $this->connectAndLogin();
+        $this->walistener->setListener($listener);
     }
 
     /**
@@ -175,7 +175,7 @@ class MGP25 implements WhatsapiInterface
                     $copy->$key = $value;
                 }
 
-                if($object = $this->listener)
+                if($object = $this->walistener->getListener())
                 {
                     $copy->raw = json_encode($copy);
                     $object->fire('onSendCompleted', (array) $copy);
@@ -324,6 +324,8 @@ class MGP25 implements WhatsapiInterface
     public function syncContacts(array $contacs, array $delete = null)
     {
         $this->gateway()->sendSync($contacs, $delete);
+
+        return $this->session->pull();
     }
 
     /**

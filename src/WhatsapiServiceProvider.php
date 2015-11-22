@@ -27,9 +27,10 @@ class WhatsapiServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerWhatsProt();
-        $this->registerListenerInterface();
+        $this->registerEventListener();
         $this->registerMediaManager();
         $this->registerMessageManager();
+        $this->registerSessionManager();
         $this->registerRegistrationTool();
         $this->registerWhatsapi();
 
@@ -62,11 +63,13 @@ class WhatsapiServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerListenerInterface()
+    private function registerEventListener()
     {
         $this->app->singleton('Xaamin\Whatsapi\Events\Listener', function($app)
         {   
-            return new \Xaamin\Whatsapi\Events\Listener(Config::get('whatsapi'));
+            $session = $app->make('Xaamin\Whatsapi\Sessions\SessionInterface');
+
+            return new \Xaamin\Whatsapi\Events\Listener($session, Config::get('whatsapi'));
         });
     }
 
@@ -84,7 +87,15 @@ class WhatsapiServiceProvider extends ServiceProvider
         {   
             $media = $app->make('Xaamin\Whatsapi\Media\Media');
 
-            return new \Xaamin\Whatsapi\MessageManager($media);;
+            return new \Xaamin\Whatsapi\MessageManager($media);
+        });
+    }
+
+    private function registerSessionManager()
+    {
+        $this->app->singleton('Xaamin\Whatsapi\Sessions\SessionInterface', function ($app)
+        {
+             return $app->make('Xaamin\Whatsapi\Sessions\Laravel\Session');
         });
     }
 
@@ -95,11 +106,12 @@ class WhatsapiServiceProvider extends ServiceProvider
              // Dependencies
              $whatsProt = $app->make('WhatsProt');
              $manager = $app->make('Xaamin\Whatsapi\MessageManager');
+             $session = $app->make('Xaamin\Whatsapi\Sessions\SessionInterface');
              $listener = $app->make('Xaamin\Whatsapi\Events\Listener');
 
              $config = Config::get('whatsapi');
 
-             return new \Xaamin\Whatsapi\Clients\MGP25($whatsProt, $manager, $listener, $config);
+             return new \Xaamin\Whatsapi\Clients\MGP25($whatsProt, $manager, $listener, $session, $config);
         });
 
     }

@@ -50,7 +50,7 @@ In the same `config/app.php` file, add to aliases array each of these lines
     'WATOOL' => 'Xaamin\Whatsapi\Facades\Laravel\Registration',
 ```
 
-##Configuration
+### Configuration
 
 Now everything has been installed, you just need to add your Whatsapp account details into the config file. There will now be a personal config file created for you in `whatsapidemo/config/whatsapi`.
 

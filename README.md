@@ -43,7 +43,7 @@ Wrapper for this awesome [repository](https://github.com/WHAnonymous/Chat-API)
     'Xaamin\Whatsapi\WhatsapiServiceProvider'
 ```
 
-In the same files add to aliases array each of these lines
+In the same `config/app.php` file, add to aliases array each of these lines
 
 ```
     'WA' => 'Xaamin\Whatsapi\Facades\Laravel\Whatsapi',

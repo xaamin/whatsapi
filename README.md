@@ -121,16 +121,16 @@ See the entire registration process on [https://github.com/WHAnonymous/Chat-API/
     {
         $send->to($user->phone);
 
-        // Add an image
+        // Add an audio file
         $send->audio('http://itnovado.com/example.mp3');
  
-        // Add an audio file
+        // Add an image file
         $send->image('http://itnovado.com/example.jpg', 'Cool image');
         
-        // Add a video
+        // Add a video file
         $send->video('http://itnovado.com/example.mp4', 'Fun video');
  
-        // Add a location
+        // Add a location (Longitude, Latitude)
         $send->location(-89.164138, 19.412405, 'Itnovado Location');
  
         // Add a VCard

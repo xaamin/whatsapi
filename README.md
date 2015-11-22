@@ -31,7 +31,7 @@ If you get `[InvalidArgumentException] Could not find package xaamin/whatsapi at
     "prefer-stable" : true
 ```
 
-Now, we tell Laravel that there is a Whatsapi ServiceProvider. At the end of `config/app.php` file, in the providers array, add:
+We tell Laravel that there is a Whatsapi ServiceProvider. At the end of `config/app.php` file, in the providers array, add:
 
 ```
     'Xaamin\Whatsapi\WhatsapiServiceProvider'
@@ -43,7 +43,7 @@ Now we need to publish the config file that will allow you to very easily add al
     php artisan vendor:publish --provider="Xaamin\Whatsapi\WhatsapiServiceProvider" --tag="config"
 ```
 
-Into the `config/app.php` file, add to aliases array each of these lines
+Finally, Into the `config/app.php` file, add to aliases array each of these lines
 
 ```
     'WA' => 'Xaamin\Whatsapi\Facades\Laravel\Whatsapi',

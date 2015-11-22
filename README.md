@@ -4,41 +4,46 @@ Wrapper for this awesome [repository](https://github.com/WHAnonymous/Chat-API)
 
 ### Installation
 
-1. Assuming you already have composer installed on your system, install a new [Laravel](http://laravel.com/) project into `whatsapidemo` folder
+* Assuming you already have composer installed on your system, install a new [Laravel](http://laravel.com/) project into `whatsapidemo` folder
 
 ```
     composer create-project laravel/laravel whatsapidemo --prefer-dist
 ```
 
-2. Ensure that you set webserver to use `whatsapidemo/public` as it's webroot. Now, if you visit http://localhost (or whatever domain name you are using) you should see a nice Laravel welcome message. 
+* Ensure that you set webserver to use `whatsapidemo/public` as it's webroot. Now, if you visit http://localhost (or whatever domain name you are using) you should see a nice Laravel welcome message. 
 
-3. Change into your new `whatsapidemo` folder.
+* Change into your new `whatsapidemo` folder.
 
 ```
     cd whatsapidemo
 ```
 
-4. Require the needed package. 
+* Require the needed package. 
 
 ``` 
     composer require xaamin/whatsapi
 ```
 
-  * If you get `[InvalidArgumentException] Could not find package xaamin/whatsapi at any version for your minimum-stability (stable). Check the package spelling or your minimum-stability` you must add `"minimum-stability": "dev"` and `"prefer-stable" : true` to your composer.json an then re-run previous command.
+  If you get `[InvalidArgumentException] Could not find package xaamin/whatsapi at any version for your minimum-stability (stable). Check the package spelling or your minimum-stability` you must add these lines to your composer.json an then re-run previous command.
 
+```
+    "minimum-stability": "dev",
+    "prefer-stable" : true
+```
 
-5. Now we need to publish the config file that will allow you to very easily add all your account numbers.
+* Now we need to publish the config file that will allow you to very easily add all your account numbers.
 
 ```
     php artisan vendor:publish --provider="Xaamin\Whatsapi\WhatsapiServiceProvider" --tag="config"
 ```
 
-6. Finally, we tell Laravel that there is a Whatsapi ServiceProvider. At the end of `config/app.php` file, in the providers array, add:
+* Finally, we tell Laravel that there is a Whatsapi ServiceProvider. At the end of `config/app.php` file, in the providers array, add:
 
 ```
     'Xaamin\Whatsapi\WhatsapiServiceProvider'
 ```
-7. In the same config file add to aliases array each of these lines
+
+In the same files add to aliases array each of these lines
 
 ```
     'WA' => 'Xaamin\Whatsapi\Facades\Laravel\Whatsapi',

@@ -50,7 +50,7 @@ class Listener
      * 
      * @param array $config
      */
-    public function __construct(SessionIdInterface $session, array $config)
+    public function __construct(SessionInterface $session, array $config)
     {
         $this->config = $config;
         $this->session = $session;
@@ -127,7 +127,7 @@ class Listener
      * 
      * @return \Xaamin\Whatsapi\Contracts\ListenerInterface
      */
-    public function getListener(ListenerInterface $listener)
+    public function getListener()
     {
         return $this->listener;
     }

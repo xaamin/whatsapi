@@ -13,22 +13,18 @@ Wrapper for this awesome [repository](https://github.com/WHAnonymous/Chat-API)
 2. Ensure that you set webserver to use `whatsapidemo/public` as it's webroot. Now, if you visit http://localhost (or whatever domain name you are using) you should see a nice Laravel welcome message. 
 
 3. Change into your new `whatsapidemo` folder.
+
 ```
     cd whatsapidemo
 ```
 
-4. Require the needed package, it install all dependencies for you. 
+4. Require the needed package. 
 
 ``` 
     composer require xaamin/whatsapi
 ```
 
-If you get a message as this:
-```
-    [InvalidArgumentException]
-    Could not find package xaamin/whatsapi at any version for your minimum-stability (stable). Check the package spelling or your minimum-stability
-```
-you must add these lines to your composer.json an then re-run previous command.
+If you get `[InvalidArgumentException] Could not find package xaamin/whatsapi at any version for your minimum-stability (stable). Check the package spelling or your minimum-stability` you must add these lines to your composer.json an then re-run previous command.
 
 ```
     "minimum-stability": "dev",
@@ -46,6 +42,7 @@ you must add these lines to your composer.json an then re-run previous command.
 ```
     'Xaamin\Whatsapi\WhatsapiServiceProvider'
 ```
+
 In the same files add to aliases array each of these lines
 
 ```

@@ -52,11 +52,7 @@ In the same `config/app.php` file, add to aliases array each of these lines
 
 ### Configuration
 
-Now everything has been installed, you just need to add your Whatsapp account details into the config file. There will now be a personal config file created for you in `whatsapidemo/config/whatsapi`.
-
-Open this file and edit the details with your account info. 
-
-Once saved, you're good to use the API!
+Now everything has been installed, you just need to add your Whatsapp account details into the config file. There will now be a personal config file created for you in `whatsapidemo/config/whatsapi.php`. Open this file and edit the details with your account info. Once saved, you're good to use the API!
 
 ### Basic usage
 

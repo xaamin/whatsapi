@@ -59,7 +59,7 @@ class Session implements SessionInterface {
 	{
 		$session = $this->getSession();
 
-		$this->$this->forgetSession();
+		$this->forgetSession();
 
 		return $session;
 	}

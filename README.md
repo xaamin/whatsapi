@@ -1,8 +1,18 @@
-## Whatsapp Chat Integrated with Laravel
+# Whatsapi
 
-Wrapper for this awesome [repository](https://github.com/WHAnonymous/Chat-API)
+Wrapper for this awesome [repository](https://github.com/WHAnonymous/Chat-API) that allow us send messages through WhatsApp. Thanks guys.
 
 ### Installation
+
+**Non Laravel users**
+
+If you're not a Laravel user you only need to run the composer require command in order to install the needed package. 
+
+``` 
+    composer require xaamin/whatsapi
+```
+
+**Laravel users**
 
 Assuming you already have composer installed on your system, install a new [Laravel](http://laravel.com/) project into `whatsapidemo` folder
 
@@ -37,24 +47,103 @@ We tell Laravel that there is a Whatsapi ServiceProvider. At the end of `config/
     'Xaamin\Whatsapi\WhatsapiServiceProvider'
 ```
 
-Now we need to publish the config file that will allow you to very easily add all your account numbers.
+Finally, Into the `config/app.php` file, add to aliases array each of these lines
+
+```
+    'Whatsapi' => 'Xaamin\Whatsapi\Facades\Laravel\Whatsapi',
+    'Registration' => 'Xaamin\Whatsapi\Facades\Laravel\Registration',
+```
+
+### Configuration
+
+**Non Laravel users**
+
+If you're using another Framework, different from Laravel, you must put manually the config file `Config/config.php` on the right path. 
+
+```
+    // Include the composer autoload file
+    include_once "vendor/autoload.php";
+
+    // Import the necessary classes
+    use Xaamin\Whatsapi\Facades\Native\Whatsapi;
+    use Xaamin\Whatsapi\Facades\Native\Registration;
+
+    // Or, if you want you can add a class alias
+    // class_alias('Xaamin\Whatsapi\Facades\Native\Whatsapi', 'Whatsapi');
+    // class_alias('Xaamin\Whatsapi\Facades\Native\Registration', 'Registration');
+```
+
+Now, we tell Whatsapi about the config values.
+
+```
+    // Of course, you can use the Config class from your favorite Framework.
+    $config = __DIR__ . 'config/whatsapi.php';
+
+    Whatsapi::setConfig($config);
+```
+
+By default, the native implementation session use the `$_SESSION` global var, you can override this providing a instance that implements the contract `Xaamin\Whatsapi\Sessions\SessionInterface`.
+
+```
+    # Codeigniter 3 example
+    
+    use CI_Session;
+    use Xaamin\Whatsapi\Sessions\SessionInterface;
+
+    class SessionManager implements SessionInterface{
+
+        # The key used in the Session.
+        protected $key = 'itnovado_whatsapi';
+
+        # Session object.
+        protected $session;
+
+        public function __construct(CI_Session $session)
+        {
+            $this->session = $session;
+        }
+
+        public function getKey()
+        {
+            return $this->key;
+        }
+
+        public function put($value)
+        {
+            $this->session->set_userdata($this->getKey(), $value);
+        }
+
+        public function pull()
+        {
+            $data = $this->session->userdata($this->getKey());
+
+            $this->session->unset_userdata($this->getKey());
+
+            return $data;
+        }
+    }
+
+    // Get some resources
+    $ci =& get_instance();
+    $ci->load->driver('session');
+    
+    $sessionManager = new SessionManager($ci->session);
+
+    // Override the default session implementation
+    Whatsapi::setSessionManager($sessionManager);
+```
+
+**Laravel users**
+
+We need to publish the config file that will allow you to very easily add all your account numbers.
 
 ```
     php artisan vendor:publish --provider="Xaamin\Whatsapi\WhatsapiServiceProvider" --tag="config"
 ```
 
-Finally, Into the `config/app.php` file, add to aliases array each of these lines
-
-```
-    'WA' => 'Xaamin\Whatsapi\Facades\Laravel\Whatsapi',
-    'WATOOL' => 'Xaamin\Whatsapi\Facades\Laravel\Registration',
-```
-
-### Configuration
-
 Now everything has been installed, you just need to add your Whatsapp account details into the config file. There will now be a personal config file created for you in `whatsapidemo/config/whatsapi.php`. Open this file and edit the details with your account info. Once saved, you're good to use the API!
 
-### Basic usage
+### Usage
 
 **Request registration code**
 
@@ -62,9 +151,9 @@ When requesting the code, you can do it via SMS or voice call, in both cases you
 
 ```
     $number = '5219511552222'; # Number with country code
-    $type = 'sms'; # This can either sms or voice
+    $type = 'sms'; # This can be either sms or voice
 
-    $response = WATOOL::requestCode($number, $type);
+    $response = Registration::requestCode($number, $type);
 
 ```
 
@@ -89,7 +178,7 @@ If you received the code like this 123-456 you should register like this '123456
     $number = '5219511552222'; # Number with country code
     $code = '132456'; # Replace with received code  
 
-    $response = WATOOL::registerCode($number, $code);
+    $response = Registration::registerCode($number, $code);
 
 ```
 
@@ -114,10 +203,15 @@ See the entire registration process on [https://github.com/WHAnonymous/Chat-API/
 **Send messages**
 
 ```
-    $user = User::find(1);
-    $message = "Hello $user->name, you're welcome";
+    // Retrieve user data from database, web service, and so on.
+    // Dummy method, fake data.
+    $user = new stdClass;
+    $user->name = 'Benjamín Martínez Mateos';
+    $user->phone = '5219512222222';
 
-    WA::send($message, function($send) use ($user)
+    $message = "Hello $user->name and welcome to our site";
+
+    $messages = Whatsapi::send($message, function($send) use ($user)
     {
         $send->to($user->phone);
 
@@ -147,13 +241,19 @@ See the entire registration process on [https://github.com/WHAnonymous/Chat-API/
         // Add new text message
         $send->message('Thanks for subscribe');
     });
+    
+    foreach($messages as $message)
+    {
+        ...
+    }
+
 ```
 
 
 **Check for new messages**
 
 ```
-    $messages = WA::getNewMessages();
+    $messages = $messages = Whatsapi::getNewMessages();
 
     if($messages)
     {
@@ -167,7 +267,7 @@ See the entire registration process on [https://github.com/WHAnonymous/Chat-API/
 **Sync contacts**
 
 ```
-    $result = WA::syncContacts(['5219512222222', '5219512222223']);
+    $messages = $result = Whatsapi::syncContacts(['5219512222222', '5219512222223']);
     
     foreach ($result->existing as $number => $account)
     {

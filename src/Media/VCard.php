@@ -1,5 +1,5 @@
 <?php
-namespace Xaamin\Whatsapi\Helpers;
+namespace Xaamin\Whatsapi\Media;
 
 /** 
  * A class to generate vCards for contact data.

@@ -10,6 +10,7 @@ use Xaamin\Whatsapi\MessageManager;
 use Xaamin\Whatsapi\Events\Listener;
 use Xaamin\Whatsapi\Sessions\SessionInterface;
 use Xaamin\Whatsapi\Contracts\WhatsapiInterface;
+use Xaamin\Whatsapi\Contracts\ListenerInterface;
 
 class MGP25 implements WhatsapiInterface
 {
@@ -38,7 +39,7 @@ class MGP25 implements WhatsapiInterface
     protected $connected = false;
 
     /**
-     * Holds SessionInterface instance
+     * Holds SessionInterface implementation
      * 
      * @var Xaamin\Whatsapi\Sessions\SessionInterface
      */
@@ -87,11 +88,6 @@ class MGP25 implements WhatsapiInterface
 
         $this->password = $this->config["accounts"][$account]["password"];
         $this->account = $this->config["accounts"][$account];
-
-        if($this->config['listen-type'] != 'custom')
-        {
-            $this->connectAndLogin();
-        }
     }
 
     /**

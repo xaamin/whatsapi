@@ -25,14 +25,14 @@ class Listener
     private $lines = [];
 
     /**
-     * ListenerInterface instance
+     * ListenerInterface implementation
      * 
      * @var \Xaamin\Whatsapi\Contracts\ListenerInterface
      */
     protected $listener;
 
     /**
-     * Holds SessionInterface instance
+     * Holds SessionInterface implementation
      * 
      * @var Xaamin\Whatsapi\Sessions\SessionInterface
      */
@@ -265,7 +265,7 @@ class Listener
             throw new Exception('Path ' . $path . ' must be exists and must be writable by the server.');            
         }
 
-        $file = $path . '/' . 'log-' . date('Ymd') . '.log';
+        $file = $path . '/' . 'whatsapi-' . date('Ymd') . '.log';
 
         return @file_put_contents($file, $message . "\n", LOCK_EX | FILE_APPEND);
     }

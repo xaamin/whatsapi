@@ -4,6 +4,7 @@ namespace Xaamin\Whatsapi\Tools;
 use WhatsProt;
 use Registration;
 use Xaamin\Whatsapi\Events\Listener;
+use Xaamin\Whatsapi\Contracts\ListenerInterface;
 use Xaamin\Whatsapi\Contracts\WhatsapiToolInterface;
 
 class MGP25 implements WhatsapiToolInterface
@@ -26,6 +27,17 @@ class MGP25 implements WhatsapiToolInterface
     {
         $this->setDebug($debug);
         $this->listener = $listener;
+    }
+
+    /**
+     * Sets the Whatsapi event listener
+     * 
+     * @param  \Xaamin\Whatsapi\Contracts\ListenerInterface $listener 
+     * @return void
+     */
+    public function setListener(ListenerInterface $listener)
+    {
+        $this->listener->setListener($listener);
     }
 
     /**

@@ -1,5 +1,4 @@
 <?php 
-
 namespace Xaamin\Whatsapi\Contracts;
 
 use Closure;
@@ -33,10 +32,10 @@ interface WhatsapiInterface
      *         // Sets receivers
      *         $message->to('5219511552222', '52195115583333', '5219511552233');
      *         
-     *         // Add an audio file
+     *         // Add an image
      *         $message->audio('http://itnovado.com/example.mp3');
      * 
-     *         // Add an image file
+     *         // Add an audio file
      *         $message->image('http://itnovado.com/example.jpg', 'Cool image');
      *         
      *         // Add a video

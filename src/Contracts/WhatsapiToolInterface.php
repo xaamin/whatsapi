@@ -1,5 +1,4 @@
 <?php 
-
 namespace Xaamin\Whatsapi\Contracts;
 
 

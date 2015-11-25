@@ -1,5 +1,4 @@
 <?php 
-
 namespace Xaamin\Whatsapi\Sessions\Native;
 
 use Xaamin\Whatsapi\Sessions\SessionInterface;
@@ -11,7 +10,7 @@ class Session implements SessionInterface {
 	 *
 	 * @var string
 	 */
-	protected $key = 'itnovado.whatsapi';
+	protected $key = 'itnovado_whatsapi';
 
 	/**
 	 * Creates a new native session driver.
@@ -59,7 +58,7 @@ class Session implements SessionInterface {
 	{
 		$session = $this->getSession();
 
-		$this->forgetSession();
+		$this->$this->forgetSession();
 
 		return $session;
 	}

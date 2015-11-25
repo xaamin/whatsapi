@@ -1,5 +1,4 @@
 <?php 
-
 namespace Xaamin\Whatsapi\Sessions\Laravel;
 
 use Illuminate\Session\Store as SessionStore;
@@ -12,7 +11,7 @@ class Session implements SessionInterface {
 	 *
 	 * @var string
 	 */
-	protected $key = 'itnovado.whatsapi';
+	protected $key = 'itnovado_whatsapi';
 
 	/**
 	 * Session store object.

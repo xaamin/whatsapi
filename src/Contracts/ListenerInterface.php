@@ -1,9 +1,5 @@
 <?php 
-
 namespace Xaamin\Whatsapi\Contracts;
-
-use vCard;
-use Closure;
 
 interface ListenerInterface 
 {
@@ -13,7 +9,7 @@ interface ListenerInterface
 	 * 
 	 * @param  string $eventFired Event name
 	 * @param  array  $parameters Event parameters
-	 * @param  string $message    Resumed message from event
+	 * @param  string $message    Message resumed about event
 	 * @return void
 	 */
 	public function fire($eventFired, array $parameters, $message);

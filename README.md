@@ -153,7 +153,7 @@ When requesting the code, you can do it via SMS or voice call, in both cases you
     $number = '5219511552222'; # Number with country code
     $type = 'sms'; # This can be either sms or voice
 
-    $response = Registration::requestCode($number, $type);
+    $response = WhatsapiTool::requestCode($number, $type);
 
 ```
 
@@ -178,7 +178,7 @@ If you received the code like this 123-456 you should register like this '123456
     $number = '5219511552222'; # Number with country code
     $code = '132456'; # Replace with received code  
 
-    $response = Registration::registerCode($number, $code);
+    $response = WhatsapiTool::registerCode($number, $code);
 
 ```
 

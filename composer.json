@@ -16,8 +16,8 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
-        "whatsapp/chat-api": "^2.5"
+        "php": ">=5.6",        
+        "whatsapp/chat-api": "^3.2"
     },
     "suggest": {
         "illuminate/support": "For use on Laravel 5."

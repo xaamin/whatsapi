@@ -20,21 +20,21 @@ class MessageManager
      * 
      * @var array
      */
-    protected $receivers = array();
+    protected $receivers = [];
 
     /**
      * Holds messages to send.
      * 
      * @var array
      */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * Holds custom variables to inject en message processed
      * 
      * @var array
      */
-    protected $injected = array();
+    protected $injected = [];
 
     /**
      * Constructor
@@ -372,5 +372,16 @@ class MessageManager
         }
 
         return $transformed;
+    }
+
+    /**
+     * Reset messages and target array to avoid send multiple times previous messages
+     * @return void
+     */
+    public function clear()
+    {
+        $this->receivers = [];
+        $this->messages = [];
+        $this->injected = [];
     }
 }

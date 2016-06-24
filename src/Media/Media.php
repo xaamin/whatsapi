@@ -53,7 +53,14 @@ class Media
                     $link = $this->linkToVideo($media->body);
                     break;                
                 default:
-                    throw new Exception('Media type ' . $type . ' unsupported for link generation');                    
+                    $link= $media->body;
+                    /**
+                     * Don't throws exception anymore.
+                     * According to mgp25:
+                     * "Everything is received encrypted use events to obtain decrypted data"
+                     * See more at https://github.com/mgp25/Chat-API/issues/1822
+                     */
+                    //throw new Exception('Media type ' . $type . ' unsupported for link generation');                    
                     break;
             }
         }

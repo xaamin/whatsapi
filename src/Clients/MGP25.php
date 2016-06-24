@@ -183,6 +183,8 @@ class MGP25 implements WhatsapiInterface
 
         $this->broadcast = false;
 
+        $this->manager->clear();
+
         return $processed;
     }
 
@@ -234,7 +236,7 @@ class MGP25 implements WhatsapiInterface
             break;
         }
 
-        $this->gateway()->pollMessage();
+        while ($this->gateway()->pollMessage());
 
         return $id;
     }

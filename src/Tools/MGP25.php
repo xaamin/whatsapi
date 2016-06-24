@@ -43,8 +43,8 @@ class MGP25 implements WhatsapiToolInterface
     /**
      * We're debugging the registration process?
      * 
-     * @param  boolean $debug [description]
-     * @return [type]         [description]
+     * @param  boolean $debug 
+     * @return boolean
      */
     public function setDebug($debug = true)
     {

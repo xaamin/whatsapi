@@ -303,7 +303,20 @@ class MGP25 implements WhatsapiInterface
      */
     public function online()
     {
-        $this->gateway()->sendPresence('active');
+        $this->gateway()->sendActiveStatus();
+    }
+
+
+    /**
+     * Set the chat status available for chat.
+     * Sets then nickname if provided
+     * 
+     * @param $nickname
+     * @return void
+     */
+    public function available($nickname = null)
+    {
+        $this->gateway()->sendAvailableForChat($nickname);
     }
 
     /**
@@ -313,7 +326,7 @@ class MGP25 implements WhatsapiInterface
      */
     public function offline()
     {
-        $this->gateway()->sendPresence('inactive');
+        $this->gateway()->sendOfflineStatus();
     }
 
     /**

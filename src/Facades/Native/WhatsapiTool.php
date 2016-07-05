@@ -6,7 +6,7 @@ use Xaamin\Whatsapi\Tools\MGP25;
 use Xaamin\Whatsapi\Events\Listener;
 use Xaamin\Whatsapi\Sessions\Native\Session;
 
-class Registration extends Facade 
+class WhatsapiTool extends Facade 
 {
 	use ResourceTrait;
 
@@ -21,7 +21,7 @@ class Registration extends Facade
 
         $listener = new Listener($session, $config);
 
-        $whatsapi = new MGP25($listener, $config['debug']);
+        $whatsapi = new MGP25($listener, $config['debug'], $config["data-storage"]);
 
         if($eventListener = static::$listener)
         {

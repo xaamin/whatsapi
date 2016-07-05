@@ -27,12 +27,14 @@ class Whatsapi extends Facade
 
         // Setup Account details.
         $debug     = $config["debug"];
+        $log       = $config["log"];
         $account   = $config["default"];
+        $storage   = $config["data-storage"];
         $nickname  = $config["accounts"][$account]["nickname"];
         $number    = $config["accounts"][$account]["number"];
-        $nextChallengeFile = $config["challenge-path"] . "/" . $number . "-next-challenge.dat";
-
-        $whatsProt =  new WhatsProt($number, $nickname, $debug);
+        $nextChallengeFile = $config["challenge-path"] . "/phone-" . $number . "-next-challenge.dat";
+        
+        $whatsProt =  new WhatsProt($number, $nickname, $debug, $log, $storage);
         $whatsProt->setChallengeName($nextChallengeFile);
         
         $media = new Media($config['media-path']);

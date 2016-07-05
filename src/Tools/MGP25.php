@@ -17,16 +17,23 @@ class MGP25 implements WhatsapiToolInterface
     private $debug;
 
     /**
+     * Custom path to next challenge file
+     * @var string
+     */
+    private $customPath;
+
+    /**
      * Event Registrarion listener 
      * 
      * @var \Xaamin\Whatsapi\Events\Listener
      */
     private $listener;
 
-    public function __construct(Listener $listener, $debug = false)
+    public function __construct(Listener $listener, $debug = false, $customPath = false)
     {
         $this->setDebug($debug);
         $this->listener = $listener;
+        $this->customPath = $customPath;
     }
 
     /**
@@ -81,8 +88,11 @@ class MGP25 implements WhatsapiToolInterface
      */
     private function getRegistrationClient($number)
     {
-        $registration = new Registration($number, $this->debug);
+        $file = $this->customPath ? $this->customPath . '/phone-id-' . $number . '.dat' : null;
+        $registration = new Registration($number, $this->debug, $file);
+
         $this->listener->registerRegistrationEvents($registration);
+        
         return $registration;
     }
 }

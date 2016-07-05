@@ -1,17 +1,22 @@
 <?php
 
 return [
-    'debug' => false,
+    /**
+     * Debug on or off?
+     */
+    'debug' => true,
+
+    /**
+     * Enable log?
+     */
+    'log' => false,
     
     /**
-     * Next paths must be writable by webserver
+     * The path for whatsapp data like media, pictures, etc.. 
+     * The path must be writable for webserver
      */
-    'challenge-path' => storage_path() . '/app', 
-   
-    'media-path' => public_path() . '/media', 
-
-    'log-path' => storage_path() . '/logs',
-        
+    'data-storage' => storage_path() . '/whatsapi',
+           
     // Max contacts to broadcast messages
     'broadcast-limit' => 20,
 

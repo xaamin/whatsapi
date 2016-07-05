@@ -51,12 +51,14 @@ class WhatsapiServiceProvider extends ServiceProvider
         {
             // Setup Account details.
             $debug     = Config::get("whatsapi.debug");
+            $log       = Config::get("whatsapi.log");
+            $storage   = Config::get("whatsapi.data-storage");
             $account   = Config::get("whatsapi.default");
             $nickname  = Config::get("whatsapi.accounts.$account.nickname");
             $number    = Config::get("whatsapi.accounts.$account.number");
-            $nextChallengeFile = Config::get("whatsapi.challenge-path") . "/" . $number . "-next-challenge.dat";
+            $nextChallengeFile = $storage . "/phone-" . $number . "-next-challenge.dat";
 
-            $whatsProt =  new WhatsProt($number, $nickname, $debug);
+            $whatsProt =  new WhatsProt($number, $nickname, $debug, $log, $storage);
             $whatsProt->setChallengeName($nextChallengeFile);
 
             return $whatsProt;
@@ -77,7 +79,7 @@ class WhatsapiServiceProvider extends ServiceProvider
     {
         $this->app->singleton('Xaamin\Whatsapi\Media\Media', function($app)
         {   
-            return new \Xaamin\Whatsapi\Media\Media(Config::get('whatsapi.media-path'));
+            return new \Xaamin\Whatsapi\Media\Media(Config::get('whatsapi.data-storage') . '/media');
         });
     }
 
@@ -122,7 +124,7 @@ class WhatsapiServiceProvider extends ServiceProvider
         {
             $listener = $app->make('Xaamin\Whatsapi\Events\Listener');
 
-            return new \Xaamin\Whatsapi\Tools\MGP25($listener, Config::get('whatsapi.debug'));
+            return new \Xaamin\Whatsapi\Tools\MGP25($listener, Config::get('whatsapi.debug'), Config::get('whatsapi.data-storage'));
         });
     }
 

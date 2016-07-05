@@ -1,6 +1,6 @@
 # Whatsapi
 
-Wrapper for this awesome [repository](https://github.com/WHAnonymous/Chat-API) that allow us send messages through WhatsApp. Thanks guys.
+Wrapper for [whatsapp/chat-api](https://github.com/mgp25/Chat-API), that allows us send messages through WhatsApp. Thanks guys.
 
 ### Installation
 
@@ -144,6 +144,8 @@ We need to publish the config file that will allow you to very easily add all yo
 Now everything has been installed, you just need to add your Whatsapp account details into the config file. There will now be a personal config file created for you in `whatsapidemo/config/whatsapi.php`. Open this file and edit the details with your account info. Once saved, you're good to use the API!
 
 ### Usage
+
+**Note: ** You must create the data storage path specified in configuration file. The path must be writable for webserver.
 
 **Request registration code**
 
@@ -299,5 +301,16 @@ Example response
 
     )
 ```
+
+**Missing methods**
+
+You can use all power of the [whatsapp/chat-api](https://github.com/mgp25/Chat-API) getting and instance of `Whatsprot` class. Read the whatsapp/chat-api [wiki](https://github.com/mgp25/Chat-API/wiki) for available methods.
+
+```
+    $whatsprot = Whatsapi::gateway();
+
+    // Do stuff...
+```
+
 
 You can use on routes, cli... you got the idea.

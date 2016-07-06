@@ -144,8 +144,6 @@ class MGP25 implements WhatsapiInterface
         
         foreach ($receivers as $receiver)
         {   
-            $this->presence($receiver);
-
             foreach ($messages as $index => $message)
             {                
                 $this->composition($receiver, $message);
@@ -306,7 +304,6 @@ class MGP25 implements WhatsapiInterface
         $this->gateway()->sendActiveStatus();
     }
 
-
     /**
      * Set the chat status available for chat.
      * Sets then nickname if provided
@@ -320,9 +317,9 @@ class MGP25 implements WhatsapiInterface
     }
 
     /**
-     * Sets chat status to "Offline"
+     * Send the offline status. User will show up as "Offline".
      * 
-     * @return [type] [description]
+     * @return void
      */
     public function offline()
     {
@@ -336,20 +333,47 @@ class MGP25 implements WhatsapiInterface
     {
         $this->gateway()->sendSync($contacs, $delete);
 
-        return $this->session->pull();
+        $result = $this->session->pull();
+
+        if ($result && !empty($result->existing)) {
+            $contacs = [];
+
+            foreach ($result->existing as $key => $value) {
+                $contacs[] = str_replace('+', '', $key);
+            }
+
+            $this->subscribe($contacs);
+        }
+
+        return $result;
     }
 
     /**
-     * Send presence
+     * Send presence subscription, automatically receive presence 
+     * updates as long as the socket is open.
      * 
      * @param  string|array $to
      * @return void
      */
-    public function presence($to)
+    public function subscribe($to)
     {
         foreach ((array) $to as $phone) 
         {
             $this->gateway()->sendPresenceSubscription($phone);
+        }
+    }
+
+    /**
+     * Unsubscribe, will stop subscription.
+     * 
+     * @param  string|array $to
+     * @return void
+     */
+    public function unsubscribe($to)
+    {
+        foreach ((array) $to as $phone) 
+        {
+            $this->gateway()->sendPresenceUnsubscription($phone);
         }
     }
 
@@ -396,12 +420,17 @@ class MGP25 implements WhatsapiInterface
     {
         if(!$this->connected)
         {
-            $this->connected = true;
+            $account = $this->config["default"];
 
             $this->whatsProt->connect();
             $this->whatsProt->loginWithPassword($this->password);
+            $this->whatsProt->sendGetClientConfig();
             $this->whatsProt->sendGetServerProperties();
-            $this->online();
+            $this->whatsProt->sendGetGroups();
+            $this->whatsProt->sendGetBroadcastLists();
+            $this->whatsProt->sendGetPrivacyBlockedList();
+            $this->whatsProt->sendAvailableForChat($this->config["accounts"][$account]['nickname']);
+            $this->connected = true;
         }
     }
 

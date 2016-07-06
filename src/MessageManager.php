@@ -330,7 +330,8 @@ class MessageManager
 
                 unset($attributes->t);
                 
-                $child = $message->getChild(0);
+                // Add encryption check 
+                $child = is_null($message->getChild(1)) ? $message->getChild(0) : $message->getChild(1);
 
                 $node = new stdClass();
                 $node->tag = $child->getTag();

@@ -100,7 +100,5 @@ class Listener
     public function onGetSyncResult($result) 
     {
         $this->session->put($result);
-
-        $this->fire(__FUNCTION__, $parameters);
     }
 }

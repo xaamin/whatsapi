@@ -145,7 +145,7 @@ Now everything has been installed, you just need to add your Whatsapp account de
 
 ### Usage
 
-**Note: ** You must create the data storage path specified in configuration file. The path must be writable for webserver.
+**Note:** You must create the data storage path specified in configuration file. The path must be writable for webserver.
 
 **Request registration code**
 

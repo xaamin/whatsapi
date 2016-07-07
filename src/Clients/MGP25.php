@@ -84,10 +84,27 @@ class MGP25 implements WhatsapiInterface
         $this->session = $session;
         $this->config = $config;
 
+        $this->checkForExtensions();
+
         $account = $this->config["default"];
 
         $this->password = $this->config["accounts"][$account]["password"];
         $this->account = $this->config["accounts"][$account];
+    }
+
+    protected function checkForExtensions()
+    {
+        if (!extension_loaded('crypto')) {
+            throw new Exception('crypto extension is required to support encryption and don\'t get blocked. See more at https://github.com/mgp25/Chat-API/wiki/Dependencies');
+        }
+
+        if (!extension_loaded('curve25519')) {
+            throw new Exception('curve25519 extension is required to support encryption and don\'t get blocked. See more at https://github.com/mgp25/Chat-API/wiki/Dependencies');
+        }
+
+        if (!extension_loaded('protobuf')) {
+            throw new Exception('protobuf extension are required to support encryption and don\'t get blocked. See more at https://github.com/mgp25/Chat-API/wiki/Dependencies');
+        }
     }
 
     /**
@@ -168,7 +185,7 @@ class MGP25 implements WhatsapiInterface
                 {
                     $copy->$key = $value;
                 }
-                
+
                 $processed[] = $copy;
             }
         }
@@ -437,6 +454,9 @@ class MGP25 implements WhatsapiInterface
     {
         if($this->connected)
         {
+            // Adds some delay defore disconnect
+            sleep(rand(1, 2));
+            
             $this->offline();
             $this->whatsProt->disconnect();
 

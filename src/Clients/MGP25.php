@@ -168,13 +168,7 @@ class MGP25 implements WhatsapiInterface
                 {
                     $copy->$key = $value;
                 }
-
-                if($object = $this->walistener->getListener())
-                {
-                    $copy->raw = json_encode($copy);
-                    $object->fire('onSendCompleted', (array) $copy);
-                }
-
+                
                 $processed[] = $copy;
             }
         }

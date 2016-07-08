@@ -72,6 +72,13 @@ class MGP25 implements WhatsapiInterface
      * @var boolean
      */
     protected $broadcast = false;
+    
+    /**
+     * Never let logoff happens
+     *
+     * @var boolean
+     */
+    protected $canLogout = true;
 
     /**
      * @param WhatsProt $whatsProt
@@ -462,6 +469,26 @@ class MGP25 implements WhatsapiInterface
 
             $this->connected = false;
         }
+    }
+    
+    /**
+     * Set connected property
+     *
+     * @param boolean $b
+     * @return void
+     */
+    public function setConnected($b){
+        $this->connected = $b;
+    }
+
+    /**
+     * Set if instance can send logoutDisconnect
+     *
+     * @param boolean $b
+     * @return void
+     */
+    public function setCanLogout($b){
+        $this->canLogout = $b;
     }
 
     /**

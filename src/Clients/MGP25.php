@@ -459,7 +459,7 @@ class MGP25 implements WhatsapiInterface
      */
     public function logoutAndDisconnect()
     {
-        if($this->connected)
+        if($this->connected  && $this->canLogout)
         {
             // Adds some delay defore disconnect
             sleep(rand(1, 2));

@@ -78,4 +78,7 @@ interface WhatsapiInterface
      * @return array|null Null if not messages found
      */
     public function getNewMessages();
+    
+    public function setConnected($b);
+    public function setCanLogout($b);
 }

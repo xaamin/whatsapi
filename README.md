@@ -1,4 +1,7 @@
-> END OF SUPPORT <
+
+# END OF SUPPORT 
+
+See https://github.com/xaamin/whatsapi/issues/38
 
 # Whatsapi
 

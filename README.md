@@ -1,3 +1,5 @@
+> END OF SUPPORT <
+
 # Whatsapi
 
 Wrapper for [whatsapp/chat-api](https://github.com/mgp25/Chat-API), that allows us send messages through WhatsApp. Thanks guys.
